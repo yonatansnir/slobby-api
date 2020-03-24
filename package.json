@@ -1,0 +1,26 @@
+{
+  "name": "slobby-api",
+  "version": "1.0.0",
+  "description": "Rest Api for the Slobby app.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yonatansnir/slobby-api.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yonatansnir/slobby-api/issues"
+  },
+  "homepage": "https://github.com/yonatansnir/slobby-api#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.2"
+  }
+}
