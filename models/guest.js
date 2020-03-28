@@ -9,7 +9,7 @@ const guestSchema = mongoose.Schema({
     country: String,
     phoneNum: String,
     mail: String,
-    gender: { type: String, enum: Object.keys(enums.GENDER) },
+    gender: { type: String, enum: Object.values(enums.GENDER) },
     room: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Room'
