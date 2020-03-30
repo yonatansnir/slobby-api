@@ -26,6 +26,11 @@ router.get('/:id', getUser, (req, res) => {
 })
 
 
+// Delete User
+router.delete('/:id', getUser, (req, res) => {
+    res.user.remove();
+})
+
 // Get specific user
 function getUser(req, res, next){
     let id = req.params.id;
@@ -39,40 +44,41 @@ function getUser(req, res, next){
         }
         next();
     })
+    return;
 }
-// Patch specific user
-router.patch("/:id", (req, res, next) => {
-    const id = req.params.id;
-   const updateOps = {};
-   for (const ops of req.body) {
-     updateOps[ops.propName] = ops.value;
-   }
-   User.update({ _id: id }, { $set: updateOps })
-     .exec()
-     .then(result => {
-       console.log(result);
-       res.status(200).json(result);
-     })
-     .catch(err => {
-       console.log(err);
-       res.status(500).json({
-         error: err
-       });
-     });   
-});
-// Delete specific user
-router.delete("/:id", (req, res, next) => {
-   const id = req.params.id;
-   User.remove({ _id: id })
-     .exec()
-     .then(result => {
-       res.status(200).json(result);
-     })
-     .catch(err => {
-       console.log(err);
-       res.status(500).json({
-         error: err
-       });
-     });
-});
+// // Patch specific user
+// router.patch("/:id", (req, res, next) => {
+//     const id = req.params.id;
+//    const updateOps = {};
+//    for (const ops of req.body) {
+//      updateOps[ops.propName] = ops.value;
+//    }
+//    User.update({ _id: id }, { $set: updateOps })
+//      .exec()
+//      .then(result => {
+//        console.log(result);
+//        res.status(200).json(result);
+//      })
+//      .catch(err => {
+//        console.log(err);
+//        res.status(500).json({
+//          error: err
+//        });
+//      });   
+// });
+// // Delete specific user
+// router.delete("/:id", (req, res, next) => {
+//    const id = req.params.id;
+//    User.remove({ _id: id })
+//      .exec()
+//      .then(result => {
+//        res.status(200).json(result);
+//      })
+//      .catch(err => {
+//        console.log(err);
+//        res.status(500).json({
+//          error: err
+//        });
+//      });
+// });
 module.exports = router;
