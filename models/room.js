@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
 const roomSchema = mongoose.Schema({
-    _id: mongoose.Schema.Types.ObjectId,
     roomNum: Number,
     floor: Number,
     numOfpeople: Number,
+    roomPhone: String,
     isAvailable: Boolean
 });
 

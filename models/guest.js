@@ -1,19 +1,14 @@
 const mongoose = require('mongoose');
-const enums = require ('./enums')
+const enums = require ('./enums').GENDER
 //import { GENDER } from './enums';
 
 const guestSchema = mongoose.Schema({
-    _id: mongoose.Schema.Types.ObjectId,
-    firstName: String,
-    lastName: String,
+    name: String,
     country: String,
     phoneNum: String,
     mail: String,
-    gender: { type: String, enum: Object.values(enums.GENDER) },
-    room: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Room'
-    },
+    gender: String, // Gave error { type: String, enum: Object.values(enums.GENDER) },
+    room: Number
 });
 
 module.exports = mongoose.model('Guest', guestSchema);
