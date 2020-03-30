@@ -31,6 +31,17 @@ router.delete('/:id', getUser, (req, res) => {
     res.user.remove();
 })
 
+// Update User (email and password)
+router.patch('/:id', getUser, (req, res) => {
+    if (req.body.name != ""){
+        res.user.email = req.body.email;
+        res.user.password = req.body.password;
+    }
+    res.user.save()
+    .then(updatedUser => res.json(updatedUser))
+    .catch(err => res.json(err));
+})
+
 // Get specific user
 function getUser(req, res, next){
     let id = req.params.id;
@@ -46,39 +57,6 @@ function getUser(req, res, next){
     })
     return;
 }
-// // Patch specific user
-// router.patch("/:id", (req, res, next) => {
-//     const id = req.params.id;
-//    const updateOps = {};
-//    for (const ops of req.body) {
-//      updateOps[ops.propName] = ops.value;
-//    }
-//    User.update({ _id: id }, { $set: updateOps })
-//      .exec()
-//      .then(result => {
-//        console.log(result);
-//        res.status(200).json(result);
-//      })
-//      .catch(err => {
-//        console.log(err);
-//        res.status(500).json({
-//          error: err
-//        });
-//      });   
-// });
-// // Delete specific user
-// router.delete("/:id", (req, res, next) => {
-//    const id = req.params.id;
-//    User.remove({ _id: id })
-//      .exec()
-//      .then(result => {
-//        res.status(200).json(result);
-//      })
-//      .catch(err => {
-//        console.log(err);
-//        res.status(500).json({
-//          error: err
-//        });
-//      });
-// });
+
+
 module.exports = router;
