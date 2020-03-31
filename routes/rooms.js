@@ -8,9 +8,11 @@ router.get("/", (req, res, next) => {
     Room.find()
     .then(rooms => res.json(rooms))
 });
+
 // Post new room
 router.post("/", (req, res, next) => {
-    const newRoom = new Room({
+    
+     const newRoom = new Room({
         roomNum: req.body.roomNum,
         floor: req.body.floor,
         numOfpeople: req.body.numOfpeople,
@@ -18,12 +20,33 @@ router.post("/", (req, res, next) => {
         isAvailable: req.body.isAvailable
     })
     newRoom.save()
-    .then(room => res.json(room)); 
-});
+    .then(room => res.json(room))
+    .catch(err => res.json(err));
+        })
+
 //Get room
 router.get("/:roomId", getRoom,(req, res, next) => {
     res.json(res.room);
 });
+// Update specific room
+router.patch('/:roomId', getRoom, (req, res) => {
+    if (req.body.roomNum != ""){
+        res.room.floor = req.body.floor;
+        res.room.numOfpeople = req.body.numOfpeople;
+        res.room.roomPhone = req.body.roomPhone;
+        res.room.isAvailable = req.body.isAvailable;
+    }
+    res.room.save()
+    .then(updatedRoom => res.json(updatedRoom))
+    .catch(err => res.json(err));
+})
+
+
+// Delete room
+router.delete('/:roomId', getRoom, (req, res) => {
+    res.room.remove();
+})
+
 // Get specific room
 function getRoom(req, res, next){
     let id = req.params.roomId;
@@ -37,43 +60,6 @@ function getRoom(req, res, next){
         }
         next();
     })
+    return;
 }
-
-// Patch specific room
-router.patch("/:roomId", (req, res, next) => {
-    const id = req.params.roomId;
-   const updateOps = {};
-   for (const ops of req.body) {
-     updateOps[ops.propName] = ops.value;
-   }
-   Room.update({ _id: id }, { $set: updateOps })
-     .exec()
-     .then(result => {
-       console.log(result);
-       res.status(200).json(result);
-     })
-     .catch(err => {
-       console.log(err);
-       res.status(500).json({
-         error: err
-       });
-     });   
-});
-// Delete specific room
-router.delete("/:roomId", (req, res, next) => {
-   const id = req.params.roomId;
-   Room.remove({ _id: id })
-     .exec()
-     .then(result => {
-       res.status(200).json(result);
-     })
-     .catch(err => {
-       console.log(err);
-       res.status(500).json({
-         error: err
-       });
-     });
-});
-
-
 module.exports = router;
