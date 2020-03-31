@@ -17,7 +17,8 @@ router.post('/', (req, res) => {
         password: req.body.password
     })
     newUser.save()
-    .then(user => res.json(user));
+    .then(user => res.json(user))
+    .catch(err => res.json(err));
 })
 
 // Get User
