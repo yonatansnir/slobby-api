@@ -14,7 +14,7 @@ router.post("/", (req, res, next) => {
       const newComplaint = new Complaint({
         subject: req.body.subject,
         description: req.body.description,
-        complainantID: req.body.complainantID,
+        //complainantID: req.body.complainantID,
         complaintStatus: req.body.complaintStatus
       })
       newComplaint.save()
@@ -24,6 +24,21 @@ router.post("/", (req, res, next) => {
 router.get("/:complaintId", getComplaint,(req, res, next) => {
     res.json(res.complaint);
 });
+// Update specific Complaint
+router.patch('/:complaintId', getComplaint, (req, res) => {
+    if (req.body.subject != ""){
+        res.complaint.description = req.body.description;
+        res.complaint.complaintStatus = req.body.complaintStatus;
+    }
+    res.complaint.save()
+    .then(updatedComplaint => res.json(updatedComplaint))
+    .catch(err => res.json(err));
+})
+
+// Delete User
+router.delete('/:complaintId', getComplaint, (req, res) => {
+    res.complaint.remove();
+})
 // Get specific complaint
 function getComplaint(req, res, next){
     let id = req.params.complaintId;
@@ -37,8 +52,9 @@ function getComplaint(req, res, next){
         }
         next();
     })
+    return;
 }
-// Patch specific complaint
+/*
 router.patch("/:complaintId", (req, res, next) => {
     const id = req.params.complaintId;
     const updateOps = {};
@@ -73,5 +89,5 @@ router.delete("/:complaintId", (req, res, next) => {
         });
       });
 });
-
+*/
 module.exports = router;
