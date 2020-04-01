@@ -30,8 +30,7 @@ router.post("/", (req, res, next) => {
   console.log("POST WORKER");
   const worker = new Worker({
     _id: new mongoose.Types.ObjectId(),
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
+    name: req.body.name,
     country: req.body.country,
     phoneNum: req.body.phoneNum,
     mail: req.body.mail,
@@ -76,7 +75,40 @@ router.get("/:workerId", (req, res, next) => {
     });
 });
 
-router.patch("/:workerId", (req, res, next) => {
+// Delete worker
+router.delete('/:workerId', getWorker, (req, res) => {
+  res.worker.remove();
+})
+// Update worker 
+router.patch('/:workerId', getWorker, (req, res) => {
+  if (req.body.name != ""){
+      res.worker.country = req.body.country;
+      res.worker.phoneNum = req.body.phoneNum;
+      res.worker.mail = req.body.mail;
+      res.worker.gender = req.body.gender;
+      res.worker.role = req.body.role;
+  }
+  res.worker.save()
+  .then(updatedWorker => res.json(updatedWorker))
+  .catch(err => res.json(err));
+})
+// Get specific worker
+function getWorker(req, res, next){
+  let id = req.params.workerId;
+  Worker.findById(id)
+  .then(worker => {
+      if (worker){
+          res.worker = worker;
+      } else {
+          res.json({ message: 'worker not found' });
+          return;
+      }
+      next();
+  })
+  return;
+}
+
+/*router.patch("/:workerId", (req, res, next) => {
     console.log("PATCH WORKER BY ID")
     const id = req.params.workerId;
   const updateOps = {};
@@ -111,6 +143,5 @@ router.delete("/:workerId", (req, res, next) => {
         error: err
       });
     });
-});
-
+});*/
 module.exports = router;
