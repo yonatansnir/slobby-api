@@ -35,7 +35,7 @@ router.patch('/:complaintId', getComplaint, (req, res) => {
     .catch(err => res.json(err));
 })
 
-// Delete User
+// Delete complaint
 router.delete('/:complaintId', getComplaint, (req, res) => {
     res.complaint.remove();
 })
