@@ -19,12 +19,31 @@ router.post("/", (req, res, next) => {
 		room: req.body.room
       })
       newGuest.save()
-      .then(guest => res.json(guest)); 
+      .then(guest => res.json(guest))
+      .catch(err => res.json(err));
 });
 //Get guest
 router.get("/:guestId", getGuest,(req, res, next) => {
     res.json(res.guest);
 });
+// Update specific guest
+router.patch('/:guestId', getGuest, (req, res) => {
+    if (req.body.name != ""){
+        res.guest.phoneNum = req.body.phoneNum;
+        res.guest.mail = req.body.mail;
+        res.guest.gender = req.body.gender;
+        res.guest.room = req.body.room;
+    }
+    res.guest.save()
+    .then(updatedGuest => res.json(updatedGuest))
+    .catch(err => res.json(err));
+})
+
+// Delete User
+router.delete('/:guestId', getGuest, (req, res) => {
+    res.guest.remove();
+})
+
 // Get specific Guest
 function getGuest(req, res, next){
     let id = req.params.guestId;
@@ -38,7 +57,9 @@ function getGuest(req, res, next){
         }
         next();
     })
+    return;
 }
+/*
 // Patch specific guest
 router.patch("/:guestId", (req, res, next) => {
      const id = req.params.guestId;
@@ -58,21 +79,5 @@ router.patch("/:guestId", (req, res, next) => {
           error: err
         });
       });   
-});
-// Delete specific guest
-router.delete("/:guestId", (req, res, next) => {
-    const id = req.params.guestId;
-    Guest.remove({ _id: id })
-      .exec()
-      .then(result => {
-        res.status(200).json(result);
-      })
-      .catch(err => {
-        console.log(err);
-        res.status(500).json({
-          error: err
-        });
-      });
-});
-
+});*/
 module.exports = router;
