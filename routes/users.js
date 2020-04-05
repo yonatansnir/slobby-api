@@ -12,9 +12,14 @@ router.get('/', (req, res) => {
 // Post new user
 router.post('/', (req, res) => {
     const newUser = new User({
-        name: req.body.name,
-        email: req.body.email,
-        password: req.body.password
+        username: req.body.username,
+        password: req.body.password,        
+        fullname: req.body.fullname,
+        country: req.body.country,
+        phoneNum: req.body.phoneNum,
+        mail: req.body.mail,
+        gender: req.body.gender,
+        role: req.body.role
     })
     newUser.save()
     .then(user => res.json(user))
@@ -34,9 +39,14 @@ router.delete('/:id', getUser, (req, res) => {
 
 // Update User (email and password)
 router.patch('/:id', getUser, (req, res) => {
-    if (req.body.name != ""){
-        res.user.email = req.body.email;
+    if (req.body.username != ""){
         res.user.password = req.body.password;
+        res.user.fullname = req.body.fullname;
+        res.user.country = req.body.country;
+        res.user.phoneNum = req.body.phoneNum;
+        res.user.mail = req.body.mail;
+        res.user.gender = req.body.gender;
+        res.user.role = req.body.role;      
     }
     res.user.save()
     .then(updatedUser => res.json(updatedUser))
