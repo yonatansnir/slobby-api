@@ -4,6 +4,8 @@ const enums = require('./enums').COMPLAINT_STATUS;
 const complaintSchema = mongoose.Schema({
     subject: String,
     description: String,
+    userId: String,
+    guestId: String,
     //complainantID: String, is this neccesary?
     complaintStatus: String //{ type: String, enum: Object.values(enums.COMPLAINT_STATUS)}
 });

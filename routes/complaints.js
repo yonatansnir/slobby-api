@@ -14,6 +14,8 @@ router.post("/", (req, res, next) => {
       const newComplaint = new Complaint({
         subject: req.body.subject,
         description: req.body.description,
+        userId: req.body.userId,
+        guestId: req.body.guestId,
         //complainantID: req.body.complainantID,
         complaintStatus: req.body.complaintStatus
       })
@@ -29,6 +31,8 @@ router.patch('/:complaintId', getComplaint, (req, res) => {
     if (req.body.subject != ""){
         res.complaint.description = req.body.description;
         res.complaint.complaintStatus = req.body.complaintStatus;
+        res.complaint.userId = req.body.userId;
+        res.complaint.guestId = req.body.guestId;
     }
     res.complaint.save()
     .then(updatedComplaint => res.json(updatedComplaint))

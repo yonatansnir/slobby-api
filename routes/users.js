@@ -56,6 +56,7 @@ router.patch('/:id', getUser, (req, res) => {
 // Get specific user
 function getUser(req, res, next){
     let id = req.params.id;
+    console.log('id',id)
     User.findById(id)
     .then(user => {
         if (user){
